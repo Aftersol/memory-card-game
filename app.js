@@ -24,11 +24,24 @@ class pizza
     bakeTime;
 }
 
+class order
+{
+
+}
+
 class game
 {
     score;
+    timer;
+    orders;
+    ordersFulfilled;
+    maxOrders;
     constructor() {
-        scrore = 0;
+        this.scrore = 0;
+        this.timer = 0;
+        this.orders = Array<order>[];
+        this.ordersFulfilled = 0
+        this.maxOrders = 5;
     }
 }
 
