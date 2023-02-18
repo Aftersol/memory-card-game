@@ -16,17 +16,41 @@ class Player
         this.height = height;
         this.width = width;
     }
+
+    move(x, y)
+    {
+        this.pos.x += x;
+        this.pos.y += y;
+    }
 }
 
 class Pizza
 {
     topping;
     bakeTime;
+    isBurned;
+
+    burnPizza()
+    {
+        this.isBurned = true;
+    }
+
+    constructor()
+    {
+        this.isBurned = false;
+    }
 }
 
 class Order
 {
+    pizza;
+    drink;
 
+    constructor(pizza, hasDrink)
+    {
+        this.pizza = pizza;
+        this.drink = hasDrink;
+    }
 }
 
 class Game
@@ -36,6 +60,7 @@ class Game
     orders;
     ordersFulfilled;
     maxOrders;
+
     constructor() {
         this.scrore = 0;
         this.timer = 0;
