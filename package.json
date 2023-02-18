@@ -1,0 +1,22 @@
+{
+  "name": "project2-for-class",
+  "version": "1.0.0",
+  "description": "pizza game for class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aftersol/project2-for-class.git"
+  },
+  "author": "Aftersol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aftersol/project2-for-class/issues"
+  },
+  "homepage": "https://github.com/Aftersol/project2-for-class#readme",
+  "dependencies": {
+    "pixi.js": "^7.2.0-beta"
+  }
+}
