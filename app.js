@@ -1,4 +1,4 @@
-class position
+class Position
 {
     x;
     y;
@@ -8,9 +8,9 @@ class position
     }
 }
 
-class player
+class Player
 {
-    pos = position(x,y);
+    pos = Position(x,y);
     holding;
     constructor(height, width) {
         this.height = height;
@@ -18,18 +18,18 @@ class player
     }
 }
 
-class pizza
+class Pizza
 {
     topping;
     bakeTime;
 }
 
-class order
+class Order
 {
 
 }
 
-class game
+class Game
 {
     score;
     timer;
