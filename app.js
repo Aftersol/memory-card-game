@@ -1,3 +1,37 @@
+class position
+{
+    x;
+    y;
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class player
+{
+    pos = position(x,y);
+    holding;
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+}
+
+class pizza
+{
+    topping;
+    bakeTime;
+}
+
+class game
+{
+    score;
+    constructor() {
+        scrore = 0;
+    }
+}
+
 const Application = PIXI.Application;
 
 const app = new Application({
