@@ -1,7 +1,40 @@
+class Card
+{
+    #type; // card type
+
+    get type()
+    {
+        return this.type;
+    }
+
+    constructor(type)
+    {
+        this.type = type;
+    }
+}
+
+
+class tileSet
+{
+    tiles;
+
+    constructor(x, y)
+    {
+        tiles = Array(x);
+        for (var i = 0; i < x; i++)
+        {
+            tiles[i] = Array(y);
+        }
+    }
+}
+
 class Game
 {
 
+    score;
+
     constructor() {
+        this.score = 0;
 
     }
 }
