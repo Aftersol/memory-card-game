@@ -41,6 +41,21 @@ class Pizza
     }
 }
 
+class Oven
+{
+    pizza;
+
+    set pizza(pizza)
+    {
+        this.pizza = pizza;
+    }
+
+    get pizza()
+    {
+        return this.pizza;
+    }
+}
+
 class Order
 {
     pizza;
