@@ -1,3 +1,5 @@
+states = ["menu", "game", "score"];
+
 class Card
 {
     #type; // card type
@@ -26,6 +28,7 @@ class tileSet
             tiles[i] = Array(y);
         }
     }
+
 }
 
 class Game
@@ -39,6 +42,11 @@ class Game
     }
 }
 
+function setState(newGameState)
+{
+    return newGameState;
+}
+
 const Application = PIXI.Application;
 
 const app = new Application({
@@ -47,6 +55,10 @@ const app = new Application({
 });
 
 document.body.appendChild(app.view);
+
+gameInstance = new Game();
+
+state = "menu"; // would have used enum but there is no enum in JavaScript
 
 const Graphics = PIXI.Graphics;
 const rectangle = new Graphics();
