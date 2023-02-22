@@ -66,7 +66,25 @@ rectangle.beginFill(0xAA33BB)
 .drawRect(200, 200, 100, 120)
 .endFill();
 
-app.stage.addChild(rectangle);
+var textureButton = PIXI.Texture.from('https://dl.dropboxusercontent.com/s/mi2cibdajml8qj9/arrow_wait.png?dl=0');
+var button = new PIXI.Sprite(textureButton);
+
+button.buttonMode = true;
+button.anchor.set(0.5);
+button.x = 200;
+button.y = 200;
+
+// make the button interactive...
+button.eventMode = 'static';
+button.on('pointerdown', (event) => {
+    console.log('Yay!\n')
+});
+function createMenu()
+{
+
+}
+
+app.stage.addChild(button);
 
 // calls every frame
 app.ticker.add(function() {
