@@ -47,6 +47,13 @@ function setState(newGameState)
     return newGameState;
 }
 
+function createMenu()
+{
+
+}
+
+/* PIXI app starts here */
+
 const Application = PIXI.Application;
 
 const app = new Application({
@@ -74,17 +81,27 @@ button.anchor.set(0.5);
 button.x = 200;
 button.y = 200;
 
+var button2 = new PIXI.Sprite(textureButton);
+
+button2.buttonMode = true;
+button2.anchor.set(0.5);
+button2.x = 300;
+button2.y = 300;
+
 // make the button interactive...
 button.eventMode = 'static';
 button.on('pointerdown', (event) => {
+    console.log('Hooray!\n')
+});
+
+// make the button interactive...
+button2.eventMode = 'static';
+button2.on('pointerdown', (event) => {
     console.log('Yay!\n')
 });
-function createMenu()
-{
-
-}
 
 app.stage.addChild(button);
+app.stage.addChild(button2);
 
 // calls every frame
 app.ticker.add(function() {
