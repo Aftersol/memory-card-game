@@ -35,11 +35,29 @@ class Game
 {
 
     score;
-
+    cardsHeld;
     constructor() {
         this.score = 0;
 
     }
+}
+
+function shuffledCards(items)
+{
+    /* Shuffles cards using Sattolo's algorithm */
+    let i = items.length;
+    while (i > 1)
+    {
+        i--;
+        let j = Math.floor(Math.random() * i);
+
+        // swap cards
+        let temp = items[j];
+        items[i] = items[j];
+        items[j] = temp;
+    }
+
+    return items;
 }
 
 function setState(newGameState)
@@ -47,7 +65,11 @@ function setState(newGameState)
     return newGameState;
 }
 
-function createMenu()
+function buildMenuGUI()
+{
+
+}
+function buildHowToGUI()
 {
 
 }
@@ -57,8 +79,8 @@ function createMenu()
 const Application = PIXI.Application;
 
 const app = new Application({
-    width: 500,
-    height: 500
+    width: 1280,
+    height: 720
 });
 
 document.body.appendChild(app.view);
