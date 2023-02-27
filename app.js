@@ -67,9 +67,106 @@ function setState(newGameState)
 
 function buildMenuGUI()
 {
+    let titleTex = PIXI.Texture.from('images/title.png');
+    let playButtonTex = PIXI.Texture.from('images/playBtn.png');
+    let howToPlayButtonTex = PIXI.Texture.from('images/howToPlayBtn.png');
+    let backCard64px = PIXI.Texture.from('images/back_card_64px.png');
+    let backCard128px = PIXI.Texture.from('images/back_card_128px.png');
+    
+    let playButton = new PIXI.Sprite(playButtonTex);
+    
+    playButton.buttonMode = true;
+    playButton.anchor.set(0.5);
+    playButton.x = 1280/2;
+    playButton.y = 450;
+    
+    let howToPlayButton = new PIXI.Sprite(howToPlayButtonTex);
+    
+    howToPlayButton.buttonMode = true;
+    howToPlayButton.anchor.set(0.5);
+    howToPlayButton.x = 1280/2;
+    howToPlayButton.y = 584;
+    
+    let titleImg = new PIXI.Sprite(titleTex);
+    
+    titleImg.anchor.set(0.5);
+    titleImg.x = 1280/2;
+    titleImg.y = 128;
+
+    let px_64 = new PIXI.Sprite(backCard64px);
+    
+    px_64.anchor.set(0.5);
+    px_64.x = 1280/4;
+    px_64.y = 128;
+
+    let px_128 = new PIXI.Sprite(backCard128px);
+    
+    px_128.anchor.set(0.5);
+    px_128.x = (1280 * 3)/4;
+    px_128.y = 128;
+
+    // make the button interactive...
+    playButton.eventMode = 'static';
+    playButton.on('pointerdown', (event) => {
+        console.log('Hooray!\n');
+    });
+
+    howToPlayButton.eventMode = 'static';
+    howToPlayButton.on('pointerdown', (event) => {
+        
+        clearStage();
+        buildHowToGUI();
+    });
+
+    app.stage.addChild(titleImg);
+    app.stage.addChild(playButton);
+    app.stage.addChild(howToPlayButton);
+
+    app.stage.addChild(px_64);
+    app.stage.addChild(px_128);
 
 }
+
 function buildHowToGUI()
+{   
+    let backButtonTex = PIXI.Texture.from('images/backBtn.png');
+    let backButton = new PIXI.Sprite(backButtonTex);
+
+    // Temporary texture until we take gameplay screenshot
+    let howToPicTex = PIXI.Texture.from('images/howToPic.png');
+    let howToPic = new PIXI.Sprite(howToPicTex);
+
+    backButton.buttonMode = true;
+    backButton.anchor.set(0.5);
+    backButton.x = (1280 * 1.25)/8;
+    backButton.y = 600;
+
+    howToPic.anchor.set(0.5);
+    howToPic.x = 1280/2;
+    howToPic.y = (720 * 1.5)/4;
+    howToPic.height = 360;
+    howToPic.width = howToPic.height * (16/9);
+
+    // make the button interactive...
+    backButton.eventMode = 'static';
+    backButton.on('pointerdown', (event) => {
+        clearStage();
+        buildMenuGUI();
+    });
+
+    app.stage.addChild(howToPic);
+    app.stage.addChild(backButton);
+}
+
+function clearStage()
+{
+    while (app.stage.children[0]) 
+    { 
+        app.stage.removeChild(app.stage.children[0]); 
+    }
+}
+
+function buildGame()
 {
 
 }
@@ -89,41 +186,7 @@ gameInstance = new Game();
 
 state = "menu"; // would have used enum but there is no enum in JavaScript
 
-const Graphics = PIXI.Graphics;
-const rectangle = new Graphics();
-rectangle.beginFill(0xAA33BB)
-.drawRect(200, 200, 100, 120)
-.endFill();
-
-var textureButton = PIXI.Texture.from('https://dl.dropboxusercontent.com/s/mi2cibdajml8qj9/arrow_wait.png?dl=0');
-var button = new PIXI.Sprite(textureButton);
-
-button.buttonMode = true;
-button.anchor.set(0.5);
-button.x = 200;
-button.y = 200;
-
-var button2 = new PIXI.Sprite(textureButton);
-
-button2.buttonMode = true;
-button2.anchor.set(0.5);
-button2.x = 300;
-button2.y = 300;
-
-// make the button interactive...
-button.eventMode = 'static';
-button.on('pointerdown', (event) => {
-    console.log('Hooray!\n')
-});
-
-// make the button interactive...
-button2.eventMode = 'static';
-button2.on('pointerdown', (event) => {
-    console.log('Yay!\n')
-});
-
-app.stage.addChild(button);
-app.stage.addChild(button2);
+buildMenuGUI();
 
 // calls every frame
 app.ticker.add(function() {
