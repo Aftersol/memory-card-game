@@ -52,7 +52,7 @@ function shuffledCards(items)
         let j = Math.floor(Math.random() * i);
 
         // swap cards
-        let temp = items[j];
+        let temp = items[i];
         items[i] = items[j];
         items[j] = temp;
     }
