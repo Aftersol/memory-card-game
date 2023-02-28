@@ -6,10 +6,7 @@ class Card
     {
         return this.type;
     }
-    constructor()
-    {
-        this.type = 0;
-    }
+
     constructor(type)
     {
         this.type = type;
@@ -60,7 +57,7 @@ function shuffledCards(items) {
 }
 
 function initalizeCards() {
-    for (var i = 0; i < 52; i++) {
+    for (let i = 0; i < 52; i++) {
         cards[2*i] = i;
         cards[(2*i)+1] = i;
         
