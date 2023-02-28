@@ -1,5 +1,3 @@
-states = ["menu", "game", "score"];
-
 class Card
 {
     #type; // card type
@@ -8,7 +6,10 @@ class Card
     {
         return this.type;
     }
-
+    constructor()
+    {
+        this.type = 0;
+    }
     constructor(type)
     {
         this.type = type;
@@ -34,20 +35,20 @@ class tileSet
 class Game
 {
 
-    score;
+    time;
     cardsHeld;
     constructor() {
-        this.score = 0;
-
+        this.time = 0;
+        this.cardsHeld = 0;
     }
 }
 
-function shuffledCards(items)
-{
+var cards = new Array(104);
+
+function shuffledCards(items) {
     /* Shuffles cards using Sattolo's algorithm */
     let i = items.length;
-    while (i > 1)
-    {
+    while (i > 1) {
         i--;
         let j = Math.floor(Math.random() * i);
 
@@ -56,14 +57,20 @@ function shuffledCards(items)
         items[i] = items[j];
         items[j] = temp;
     }
-
-    return items;
 }
 
-function setState(newGameState)
-{
-    return newGameState;
+function initalizeCards() {
+    for (var i = 0; i < 52; i++) {
+        cards[2*i] = i;
+        cards[(2*i)+1] = i;
+        
+    }
+
+    shuffledCards(cards);
 }
+
+initalizeCards();
+console.log(cards);
 
 function buildMenuGUI()
 {
@@ -183,8 +190,6 @@ const app = new Application({
 document.body.appendChild(app.view);
 
 gameInstance = new Game();
-
-state = "menu"; // would have used enum but there is no enum in JavaScript
 
 buildMenuGUI();
 
