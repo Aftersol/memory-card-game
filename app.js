@@ -66,8 +66,8 @@ function initalizeCards() {
     shuffledCards(cards);
 }
 
-initalizeCards();
-console.log(cards);
+//initalizeCards();
+//console.log(cards);
 
 function buildMenuGUI()
 {
