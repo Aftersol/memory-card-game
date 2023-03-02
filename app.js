@@ -32,11 +32,11 @@ class tileSet
 class Game
 {
 
-    time;
+    timeStarted;
     cardsHeld;
     constructor() {
         this.time = 0;
-        this.cardsHeld = 0;
+        this.cardsHeld = null;
     }
 }
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shuffle Test</title>
+        <script>
+            var cards = new Array(104);
+            /*function shuffledCards(items)
+            {
+                /* Shuffles cards using Sattolo's algorithm */
+                /*let i = items.length;
+                while (i > 1)
+                {
+                    i--;
+                    let j = Math.floor(Math.random() * i);
+
+                    // swap cards
+                    let temp = items[i];
+                    items[i] = items[j];
+                    items[j] = temp;
+                }
+
+            }*/
+            function initalizeCards()
+            {
+                for (let i = 0; i < 104; i+2)
+                {
+                    cards[i] = i;
+                    cards[i+1] = i;
+                }
+
+                shuffledCards(cards);
+            }
+            initalizeCards();
+            console.log(cards);
+        </script>
+    </head>
+    <body>
+        <p>This is HTML</p>
+    </body>
+</html>
