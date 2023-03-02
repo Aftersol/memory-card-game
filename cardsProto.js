@@ -68,18 +68,19 @@ for (let i = 0; i < 12; i++)
 {
     for (let j = 0; j < 4; j++)
     {
-        tileSet[(i*12) + j] = new tiles((12 * i) + j, new PIXI.Sprite(texture))
+        console.log((i*4) + j);
+        tileSet[(i*4) + j] = new tiles((4 * i) + j, new PIXI.Sprite(texture))
         // make the button interactive...
-        tileSet[(i*12) + j].sprite.buttonMode = true;
-        tileSet[(i*12) + j].sprite.anchor.set(0.5);
-        tileSet[(i*12) + j].sprite.x = 72 + (96 * i);
-        tileSet[(i*12) + j].sprite.y = 72 + (144 * j);
+        tileSet[(i*4) + j].sprite.buttonMode = true;
+        tileSet[(i*4) + j].sprite.anchor.set(0.5);
+        tileSet[(i*4) + j].sprite.x = 72 + (96 * i);
+        tileSet[(i*4) + j].sprite.y = 72 + (144 * j);
 
-        tileSet[(i*12) + j].sprite.eventMode = 'static';
-        tileSet[(i*12) + j].sprite.on('pointerdown', (event) => {
-            console.log(tileSet[(i*12) + j].id);
+        tileSet[(i*4) + j].sprite.eventMode = 'static';
+        tileSet[(i*4) + j].sprite.on('pointerdown', (event) => {
+            console.log(tileSet[(i*4) + j].id);
         });
-        app.stage.addChild(tileSet[(i*12) + j].sprite);
+        app.stage.addChild(tileSet[(i*4) + j].sprite);
     }
 }
 
