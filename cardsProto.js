@@ -2,11 +2,28 @@ class tiles
 {
     id;
     sprite;
-    
+    canBeSelected;
+
+    disableSelect()
+    {
+        this.canBeSelected = false;
+    }
+
+    enableSelect()
+    {
+        this.canBeSelected = true;
+    }
+
+    changeTexture(newTexture)
+    {
+        this.sprite.texture = newTexture;
+    }
+
     constructor(id, sprite)
     {
         this.id = id;
         this.sprite = sprite;
+        this.canBeSelected = true;
     }
 }
 
@@ -58,18 +75,24 @@ const app = new Application({
     height: 720
 });
 
-var texture = PIXI.Texture.from('images/back_card_128px.png')
-var tile = new tiles(0, new PIXI.Sprite(texture));
+var backCardTexture = PIXI.Texture.from('images/back_card_128px.png');
+var testFrontTexture = PIXI.Texture.from('images/Asset_15.png');
+var tile = new tiles(0, new PIXI.Sprite(backCardTexture));
+var cardTextures = new Array(54);
+for (let i = 0; i < 54; i++)
+{
+    cardTextures[i] = PIXI.Texture.from(('images/cards/card_' + i.toString() + '.png'));
+}
 
-
+var canSelect = true;
 document.body.appendChild(app.view);
-
+var gameInstance = new Game();
 for (let i = 0; i < 12; i++)
 {
     for (let j = 0; j < 4; j++)
     {
-        console.log((i*4) + j);
-        tileSet[(i*4) + j] = new tiles((4 * i) + j, new PIXI.Sprite(texture))
+        //console.log((i*4) + j);
+        tileSet[(i*4) + j] = new tiles((4 * i) + j, new PIXI.Sprite(cardTextures[53]));
         // make the button interactive...
         tileSet[(i*4) + j].sprite.buttonMode = true;
         tileSet[(i*4) + j].sprite.anchor.set(0.5);
@@ -78,7 +101,39 @@ for (let i = 0; i < 12; i++)
 
         tileSet[(i*4) + j].sprite.eventMode = 'static';
         tileSet[(i*4) + j].sprite.on('pointerdown', (event) => {
-            console.log(tileSet[(i*4) + j].id);
+            if (tileSet[(i*4) + j].canBeSelected === true && canSelect === true) // check if cards can be selected
+            {
+                //console.log(tileSet[(i*4) + j].id);
+                if (gameInstance.cardsHeld === null)
+                {
+                    console.log(tileSet[(i*4) + j].id);
+                    gameInstance.cardsHeld = tileSet[(i*4) + j];
+                    
+                    gameInstance.cardsHeld.changeTexture(cardTextures[gameInstance.cardsHeld.id]); 
+                    gameInstance.cardsHeld.disableSelect(); // prevent button from being interacted with
+                }
+                else
+                {
+                    tileSet[(i*4) + j].changeTexture(cardTextures[tileSet[(i*4) + j].id]);
+                    console.log(tileSet[(i*4) + j].id.toString() + " " + gameInstance.cardsHeld.id.toString());
+                    
+                    canSelect = false;
+                    setTimeout(function()
+                    {
+                        gameInstance.cardsHeld.enableSelect();
+                    
+                        gameInstance.cardsHeld.changeTexture(cardTextures[53]);
+                        tileSet[(i*4) + j].changeTexture(cardTextures[53]);
+    
+                        gameInstance.cardsHeld = null; // make cards selectable again
+                        canSelect = true;
+                    },
+                    2000
+                    );
+
+                }
+            }
+
         });
         app.stage.addChild(tileSet[(i*4) + j].sprite);
     }
@@ -99,5 +154,5 @@ tile.sprite.on('pointerdown', (event) => {
 
 // calls every frame
 app.ticker.add(function() {
-    
+
 });
