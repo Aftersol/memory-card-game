@@ -50,7 +50,7 @@ class Game
     }
 
     constructor() {
-        startTimer();
+        this.startTimer();
         this.cardsHeld = null;
         this.cardsMatched = 0;
     }
