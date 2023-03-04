@@ -85,7 +85,6 @@ function initalizeCards() {
 
 /* End dummy code to be placed in app.js */
 
-var textureSprites = new Array(104);
 var tileCardIDs = new Array(52);
 var tileSet = new Array(52);
 
@@ -106,13 +105,17 @@ for (let i = 0; i < 54; i++)
     cardTextures[i] = PIXI.Texture.from(('images/cards/card_' + i.toString() + '.png'));
 }
 
-// set up and shuffle cards
-for (let i = 0; i < 52/2; i++)
 {
-    tileCardIDs[2*i] = i;
-    tileCardIDs[(2*i)+1] = i;
+    let numCards = 26;
+    let offset = Math.floor(Math.random() * (53 - numCards));
+    // set up and shuffle cards
+    for (let i = 0; i < numCards; i++)
+    {
+        tileCardIDs[2*i] = i + offset;
+        tileCardIDs[(2*i)+1] = i + offset;
+    }
+    shuffledCards(tileCardIDs);
 }
-shuffledCards(tileCardIDs);
 
 var canSelect = true; // allows the player to select cards
 
@@ -129,7 +132,7 @@ for (let i = 0; i < 13; i++)
 
         // card's translation properties
         tileSet[(i*4) + j].sprite.anchor.set(0.5);
-        tileSet[(i*4) + j].sprite.x = 72 + (96 * i);
+        tileSet[(i*4) + j].sprite.x = 64 + (96 * i);
         tileSet[(i*4) + j].sprite.y = 72 + (144 * j);
 
         // make the card do something if clicked on
