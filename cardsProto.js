@@ -30,10 +30,27 @@ class tiles
 class Game
 {
     timeStarted;
+    timeEnded;
     cardsHeld;
     cardsMatched;
+
+    startTimer()
+    {
+        this.timeStarted = Date.now();
+    }
+
+    endTimer()
+    {
+        this.timeEnded = Date.now();
+    }
+
+    getMilliSec()
+    {
+        return this.timeEnded - this.timeStarted;
+    }
+
     constructor() {
-        this.time = 0;
+        startTimer();
         this.cardsHeld = null;
         this.cardsMatched = 0;
     }
@@ -135,7 +152,9 @@ for (let i = 0; i < 13; i++)
                             gameInstance.cardsMatched += 2;
                             if (gameInstance.cardsMatched >= 52)
                             {
-                                console.log("GG YOU WIN EZ!")
+                                gameInstance.endTimer();
+                                console.log("GG YOU WIN EZ!");
+                                console.log((gameInstance.getMilliSec() / 1000.0).toString() + " seconds");
                             }
                         }
                         else
