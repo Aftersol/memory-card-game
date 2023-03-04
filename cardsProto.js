@@ -31,9 +31,11 @@ class Game
 {
     timeStarted;
     cardsHeld;
+    cardsMatched;
     constructor() {
         this.time = 0;
         this.cardsHeld = null;
+        this.cardsMatched = 0;
     }
 }
 
@@ -82,16 +84,17 @@ for (let i = 0; i < 54; i++)
 {
     cardTextures[i] = PIXI.Texture.from(('images/cards/card_' + i.toString() + '.png'));
 }
-for (let i = 0; i < 52; i++)
+for (let i = 0; i < 52/2; i++)
 {
-    tileCardIDs[i] = i;
+    tileCardIDs[2*i] = i;
+    tileCardIDs[(2*i)+1] = i;
 }
 shuffledCards(tileCardIDs);
 
 var canSelect = true;
 document.body.appendChild(app.view);
 var gameInstance = new Game();
-for (let i = 0; i < 12; i++)
+for (let i = 0; i < 13; i++)
 {
     for (let j = 0; j < 4; j++)
     {
@@ -107,7 +110,7 @@ for (let i = 0; i < 12; i++)
         tileSet[(i*4) + j].sprite.on('pointerdown', (event) => {
             if (tileSet[(i*4) + j].canBeSelected === true && canSelect === true) // check if cards can be selected
             {
-                //console.log(tileSet[(i*4) + j].id);
+                
                 if (gameInstance.cardsHeld === null)
                 {
                     console.log(tileSet[(i*4) + j].id);
@@ -118,19 +121,34 @@ for (let i = 0; i < 12; i++)
                 }
                 else
                 {
+                    
                     tileSet[(i*4) + j].changeTexture(cardTextures[tileSet[(i*4) + j].id]);
                     console.log(tileSet[(i*4) + j].id.toString() + " " + gameInstance.cardsHeld.id.toString());
                     
                     canSelect = false;
                     setTimeout(function()
                     {
-                        gameInstance.cardsHeld.enableSelect();
+                        if (gameInstance.cardsHeld.id === tileSet[(i*4) + j].id)
+                        {
+                            gameInstance.cardsHeld = null; // make cards selectable again
+                            canSelect = true;
+                            gameInstance.cardsMatched += 2;
+                            if (gameInstance.cardsMatched >= 52)
+                            {
+                                console.log("GG YOU WIN EZ!")
+                            }
+                        }
+                        else
+                        {
+                            gameInstance.cardsHeld.enableSelect();
                     
-                        gameInstance.cardsHeld.changeTexture(cardTextures[53]);
-                        tileSet[(i*4) + j].changeTexture(cardTextures[53]);
-    
-                        gameInstance.cardsHeld = null; // make cards selectable again
-                        canSelect = true;
+                            gameInstance.cardsHeld.changeTexture(cardTextures[53]);
+                            tileSet[(i*4) + j].changeTexture(cardTextures[53]);
+        
+                            gameInstance.cardsHeld = null; // make cards selectable again
+                            canSelect = true;
+                        }
+
                     },
                     2000
                     );
