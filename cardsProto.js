@@ -64,6 +64,7 @@ function initalizeCards() {
 }
 
 var textureSprites = new Array(104);
+var tileCardIDs = new Array(52);
 var tileSet = new Array(52);
 
 /* PIXI app starts here */
@@ -75,14 +76,17 @@ const app = new Application({
     height: 720
 });
 
-var backCardTexture = PIXI.Texture.from('images/back_card_128px.png');
-var testFrontTexture = PIXI.Texture.from('images/Asset_15.png');
-var tile = new tiles(0, new PIXI.Sprite(backCardTexture));
+
 var cardTextures = new Array(54);
 for (let i = 0; i < 54; i++)
 {
     cardTextures[i] = PIXI.Texture.from(('images/cards/card_' + i.toString() + '.png'));
 }
+for (let i = 0; i < 52; i++)
+{
+    tileCardIDs[i] = i;
+}
+shuffledCards(tileCardIDs);
 
 var canSelect = true;
 document.body.appendChild(app.view);
@@ -92,7 +96,7 @@ for (let i = 0; i < 12; i++)
     for (let j = 0; j < 4; j++)
     {
         //console.log((i*4) + j);
-        tileSet[(i*4) + j] = new tiles((4 * i) + j, new PIXI.Sprite(cardTextures[53]));
+        tileSet[(i*4) + j] = new tiles(tileCardIDs[(4 * i) + j], new PIXI.Sprite(cardTextures[53]));
         // make the button interactive...
         tileSet[(i*4) + j].sprite.buttonMode = true;
         tileSet[(i*4) + j].sprite.anchor.set(0.5);
@@ -138,19 +142,6 @@ for (let i = 0; i < 12; i++)
         app.stage.addChild(tileSet[(i*4) + j].sprite);
     }
 }
-
-
-// make the button interactive...
-/*tile.sprite.buttonMode = true;
-tile.sprite.anchor.set(0.5);
-tile.sprite.x = (1280 * 1.25)/8;
-tile.sprite.y = 600;
-
-tile.sprite.eventMode = 'static';
-tile.sprite.on('pointerdown', (event) => {
-    console.log(tile.id);
-});*/
-//app.stage.addChild(tile.sprite);
 
 // calls every frame
 app.ticker.add(function() {
