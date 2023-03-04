@@ -112,7 +112,8 @@ function buildMenuGUI()
     // make the button interactive...
     playButton.eventMode = 'static';
     playButton.on('pointerdown', (event) => {
-        console.log('Hooray!\n');
+        clearStage();
+        buildLevelSelect();
     });
 
     howToPlayButton.eventMode = 'static';
@@ -159,6 +160,26 @@ function buildHowToGUI()
     });
 
     app.stage.addChild(howToPic);
+    app.stage.addChild(backButton);
+}
+
+function buildLevelSelect()
+{
+    let backButtonTex = PIXI.Texture.from('images/backBtn.png');
+    let backButton = new PIXI.Sprite(backButtonTex);
+
+    backButton.buttonMode = true;
+    backButton.anchor.set(0.5);
+    backButton.x = (1280 * 1.25)/8;
+    backButton.y = 600;
+
+    // make the button interactive...
+    backButton.eventMode = 'static';
+    backButton.on('pointerdown', (event) => {
+        clearStage();
+        buildMenuGUI();
+    });
+
     app.stage.addChild(backButton);
 }
 
