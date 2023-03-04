@@ -1,22 +1,22 @@
 class tiles
 {
-    id;
-    sprite;
-    canBeSelected;
+    id; // id of the card
+    sprite; // sprite of the card based on its ID
+    canBeSelected; // whether card can be selected
 
     disableSelect()
     {
-        this.canBeSelected = false;
+        this.canBeSelected = false; // make the card not be selectable
     }
 
     enableSelect()
     {
-        this.canBeSelected = true;
+        this.canBeSelected = true; // make the card be selectable
     }
 
     changeTexture(newTexture)
     {
-        this.sprite.texture = newTexture;
+        this.sprite.texture = newTexture; // changes the texture for the card
     }
 
     constructor(id, sprite)
@@ -29,24 +29,24 @@ class tiles
 
 class Game
 {
-    timeStarted;
-    timeEnded;
-    cardsHeld;
-    cardsMatched;
+    timeStarted; // time since game started
+    timeEnded; // time game ended
+    cardsHeld; // card currently being held
+    cardsMatched; // how many cards were matched
 
     startTimer()
     {
-        this.timeStarted = Date.now();
+        this.timeStarted = Date.now(); // get start time in milliseconds
     }
 
     endTimer()
     {
-        this.timeEnded = Date.now();
+        this.timeEnded = Date.now(); // get end time in milliseconds
     }
 
     getMilliSec()
     {
-        return this.timeEnded - this.timeStarted;
+        return this.timeEnded - this.timeStarted; // returns the difference between end and start times in milliseconds
     }
 
     constructor() {
@@ -55,8 +55,6 @@ class Game
         this.cardsMatched = 0;
     }
 }
-
-var cards = new Array(104);
 
 function shuffledCards(items) {
     /* Shuffles cards using Sattolo's algorithm */
@@ -72,6 +70,9 @@ function shuffledCards(items) {
     }
 }
 
+/* Start dummy code to be placed in app.js */
+
+var cards = new Array(104);
 function initalizeCards() {
     for (let i = 0; i < 52; i++) {
         cards[2*i] = i;
@@ -81,6 +82,8 @@ function initalizeCards() {
 
     shuffledCards(cards);
 }
+
+/* End dummy code to be placed in app.js */
 
 var textureSprites = new Array(104);
 var tileCardIDs = new Array(52);
@@ -95,12 +98,15 @@ const app = new Application({
     height: 720
 });
 
+// Set up card textures
 
 var cardTextures = new Array(54);
 for (let i = 0; i < 54; i++)
 {
     cardTextures[i] = PIXI.Texture.from(('images/cards/card_' + i.toString() + '.png'));
 }
+
+// set up and shuffle cards
 for (let i = 0; i < 52/2; i++)
 {
     tileCardIDs[2*i] = i;
@@ -108,8 +114,8 @@ for (let i = 0; i < 52/2; i++)
 }
 shuffledCards(tileCardIDs);
 
-var canSelect = true;
-document.body.appendChild(app.view);
+var canSelect = true; // allows the player to select cards
+
 var gameInstance = new Game();
 for (let i = 0; i < 13; i++)
 {
@@ -117,18 +123,22 @@ for (let i = 0; i < 13; i++)
     {
         //console.log((i*4) + j);
         tileSet[(i*4) + j] = new tiles(tileCardIDs[(4 * i) + j], new PIXI.Sprite(cardTextures[53]));
-        // make the button interactive...
+
+        // make the card interactive...
         tileSet[(i*4) + j].sprite.buttonMode = true;
+
+        // card's translation properties
         tileSet[(i*4) + j].sprite.anchor.set(0.5);
         tileSet[(i*4) + j].sprite.x = 72 + (96 * i);
         tileSet[(i*4) + j].sprite.y = 72 + (144 * j);
 
+        // make the card do something if clicked on
         tileSet[(i*4) + j].sprite.eventMode = 'static';
         tileSet[(i*4) + j].sprite.on('pointerdown', (event) => {
             if (tileSet[(i*4) + j].canBeSelected === true && canSelect === true) // check if cards can be selected
             {
                 
-                if (gameInstance.cardsHeld === null)
+                if (gameInstance.cardsHeld === null) // no cards held
                 {
                     console.log(tileSet[(i*4) + j].id);
                     gameInstance.cardsHeld = tileSet[(i*4) + j];
@@ -142,24 +152,26 @@ for (let i = 0; i < 13; i++)
                     tileSet[(i*4) + j].changeTexture(cardTextures[tileSet[(i*4) + j].id]);
                     console.log(tileSet[(i*4) + j].id.toString() + " " + gameInstance.cardsHeld.id.toString());
                     
-                    canSelect = false;
+                    canSelect = false; // prevents player from clicking on cards
                     setTimeout(function()
                     {
                         if (gameInstance.cardsHeld.id === tileSet[(i*4) + j].id)
                         {
                             gameInstance.cardsHeld = null; // make cards selectable again
-                            canSelect = true;
                             gameInstance.cardsMatched += 2;
+
                             if (gameInstance.cardsMatched >= 52)
                             {
                                 gameInstance.endTimer();
                                 console.log("GG YOU WIN EZ!");
                                 console.log((gameInstance.getMilliSec() / 1000.0).toString() + " seconds");
                             }
+
+                            canSelect = true;
                         }
                         else
                         {
-                            gameInstance.cardsHeld.enableSelect();
+                            gameInstance.cardsHeld.enableSelect(); // make the previously held card selectable again
                     
                             gameInstance.cardsHeld.changeTexture(cardTextures[53]);
                             tileSet[(i*4) + j].changeTexture(cardTextures[53]);
@@ -179,6 +191,8 @@ for (let i = 0; i < 13; i++)
         app.stage.addChild(tileSet[(i*4) + j].sprite);
     }
 }
+
+document.body.appendChild(app.view);
 
 // calls every frame
 app.ticker.add(function() {
