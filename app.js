@@ -194,21 +194,41 @@ function buildLevelSelect()
     app.stage.addChild(backButton);
 }
 
-function buildWinnerScreen()
+function buildWinnerScreen(level)
 {
+    let checkNewRecord = (gameInstance.getMilliSec() < records.time[level]);
+
     let winnerText = new PIXI.Text('Congratuations! You won!\n' + (gameInstance.getMilliSec() / 1000.0).toString() + " seconds", {
+        fontFamily: 'Arial',
+        fontSize: 48,
+        fill: 0xFFFFFF,
+        align: 'center',
+    });
+    
+    let recordsText = new PIXI.Text((checkNewRecord === true) ? "New Record!" : 'Can you win in under ' + (records.time[level] / 1000.0).toString() + ' seconds?', {
         fontFamily: 'Arial',
         fontSize: 24,
         fill: 0xFFFFFF,
         align: 'center',
     });
 
+    let backButtonTex = PIXI.Texture.from('images/backBtn.png');
+    let backButton = new PIXI.Sprite(backButtonTex);
+
+    if (checkNewRecord)
+    {
+        records.time[level] = gameInstance.getMilliSec();
+    }
+
     winnerText.anchor.set(0.5, 0.5);
     winnerText.x = 1280/2;
     winnerText.y = 720/4;
 
-    let backButtonTex = PIXI.Texture.from('images/backBtn.png');
-    let backButton = new PIXI.Sprite(backButtonTex);
+    recordsText.anchor.set(0.5, 0.5);
+    recordsText.x = 1280/2;
+    recordsText.y = 720*5/8;
+
+
 
     backButton.buttonMode = true;
     backButton.anchor.set(0.5);
@@ -223,6 +243,7 @@ function buildWinnerScreen()
     });
 
     app.stage.addChild(winnerText);
+    app.stage.addChild(recordsText);
     app.stage.addChild(backButton);
 }
 
@@ -315,7 +336,7 @@ function buildGame(level, width, height)
                                     console.log("GG YOU WIN EZ!");
                                     console.log((gameInstance.getMilliSec() / 1000.0).toString() + " seconds");
                                     clearStage();
-                                    buildWinnerScreen();
+                                    buildWinnerScreen(level);
                                 }
                                 
                                 canSelect = true;
@@ -346,7 +367,39 @@ function buildGame(level, width, height)
     gameInstance = new Game();
 }
 
+function resetRecords(myRecord)
+{
+    myRecord = {
+        time: [300000, 300000, 300000]
+    };
+
+    let recordsJSON = JSON.stringify(myRecord);
+    localStorage.setItem("memory_card_game_records", recordsJSON);
+}
+
 var cardTextures = new Array(54);
+
+var records = {
+    time: [300000, 300000, 300000]
+};
+
+if (localStorage.getItem("memory_card_game_records") === null)
+{
+    resetRecords(records);
+}
+else
+{
+    try
+    {
+        records = JSON.parse(localStorage.getItem("memory_card_game_records"));
+    }
+    catch(e)
+    {
+        console.log(e);
+        resetRecords(records);
+    }
+    
+}
 
 /* PIXI app starts here */
 
