@@ -379,9 +379,10 @@ function buildGame(level, width, height)
             tileSet[(i*height) + j].sprite.on('pointerdown', (event) => {
                 if (tileSet[(i*height) + j].canBeSelected === true && canSelect === true) // check if cards can be selected
                 {
-                    soundManifest.cardFlip.play();
+                    
                     if (gameInstance.cardsHeld === null) // no cards held
                     {
+                        soundManifest.cardFlip.play();
                         console.log(tileSet[(i*height) + j].id);
                         gameInstance.cardsHeld = tileSet[(i*height) + j];
                         
