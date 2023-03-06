@@ -1,3 +1,12 @@
+var soundManifest =
+{
+    click: new Audio('audio/click.mp3'),
+    cardFlip: new Audio('audio/cardFlip.mp3'),
+    match: new Audio('audio/match.mp3'),
+    noMatch: new Audio('audio/noMatch.mp3'),
+    victory: new Audio('audio/victory.mp3')
+};
+
 class tiles
 {
     id; // id of the card
@@ -27,6 +36,12 @@ class tiles
     }
 }
 
+function playClickSound()
+{
+    soundManifest.click.pause();
+    soundManifest.click = new Audio('audio/click.mp3');
+    soundManifest.click.play();
+}
 
 class Game
 {
@@ -120,13 +135,14 @@ function buildMenuGUI()
     // make the button interactive...
     playButton.eventMode = 'static';
     playButton.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildLevelSelect();
     });
 
     howToPlayButton.eventMode = 'static';
     howToPlayButton.on('pointerdown', (event) => {
-        
+        playClickSound();
         clearStage();
         buildHowToGUI();
     });
@@ -162,6 +178,7 @@ function buildHowToGUI()
     // make the button interactive...
     backButton.eventMode = 'static';
     backButton.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildMenuGUI();
     });
@@ -213,6 +230,7 @@ function buildLevelSelect()
     // make the button interactive...
     level1Btn.eventMode = 'static';
     level1Btn.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildGame(0, 4, 4);
     });
@@ -220,6 +238,7 @@ function buildLevelSelect()
     // make the button interactive...
     level2Btn.eventMode = 'static';
     level2Btn.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildGame(1, 8, 4);
     });
@@ -227,6 +246,7 @@ function buildLevelSelect()
     // make the button interactive...
     level3Btn.eventMode = 'static';
     level3Btn.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildGame(2, 13, 4);
     });
@@ -234,6 +254,7 @@ function buildLevelSelect()
     // make the button interactive...
     backButton.eventMode = 'static';
     backButton.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildMenuGUI();
     });
@@ -289,6 +310,7 @@ function buildWinnerScreen(level)
     // make the button interactive...
     backButton.eventMode = 'static';
     backButton.on('pointerdown', (event) => {
+        playClickSound();
         clearStage();
         buildMenuGUI();
     });
@@ -357,7 +379,7 @@ function buildGame(level, width, height)
             tileSet[(i*height) + j].sprite.on('pointerdown', (event) => {
                 if (tileSet[(i*height) + j].canBeSelected === true && canSelect === true) // check if cards can be selected
                 {
-                    
+                    soundManifest.cardFlip.play();
                     if (gameInstance.cardsHeld === null) // no cards held
                     {
                         console.log(tileSet[(i*height) + j].id);
@@ -373,6 +395,14 @@ function buildGame(level, width, height)
                         console.log(tileSet[(i*height) + j].id.toString() + ' ' + gameInstance.cardsHeld.id.toString());
                         
                         canSelect = false; // prevents player from clicking on cards
+                        if (gameInstance.cardsHeld.id != tileSet[(i*height) + j].id)
+                        {
+                            soundManifest.noMatch.play();
+                        }
+                        else
+                        {
+                            soundManifest.match.play();
+                        }
                         setTimeout(function()
                         {
                             if (gameInstance.cardsHeld.id === tileSet[(i*height) + j].id)
@@ -386,6 +416,7 @@ function buildGame(level, width, height)
                                     gameInstance.endTimer();
                                     console.log("GG YOU WIN EZ!");
                                     console.log((gameInstance.getMilliSec() / 1000.0).toString() + ' seconds');
+                                    soundManifest.victory.play();
                                     clearStage();
                                     buildWinnerScreen(level);
                                 }
@@ -394,6 +425,7 @@ function buildGame(level, width, height)
                             }
                             else
                             {
+                                soundManifest.cardFlip.play();
                                 gameInstance.cardsHeld.enableSelect(); // make the previously held card selectable again
                         
                                 gameInstance.cardsHeld.changeTexture(cardTextures[53]);
