@@ -204,7 +204,7 @@ function buildWinnerScreen(level)
         fill: 0xFFFFFF,
         align: 'center',
     });
-    
+
     let recordsText = new PIXI.Text((checkNewRecord === true) ? "New Record!" : 'Can you win in under ' + (records.time[level] / 1000.0).toString() + ' seconds?', {
         fontFamily: 'Arial',
         fontSize: 24,
@@ -217,6 +217,7 @@ function buildWinnerScreen(level)
 
     if (checkNewRecord)
     {
+        saveRecords(records);
         records.time[level] = gameInstance.getMilliSec();
     }
 
@@ -373,6 +374,11 @@ function resetRecords(myRecord)
         time: [300000, 300000, 300000]
     };
 
+    saveRecords(myRecord);
+}
+
+function saveRecords(myRecord)
+{
     let recordsJSON = JSON.stringify(myRecord);
     localStorage.setItem("memory_card_game_records", recordsJSON);
 }
