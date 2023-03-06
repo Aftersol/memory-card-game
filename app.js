@@ -121,8 +121,7 @@ function buildMenuGUI()
     playButton.eventMode = 'static';
     playButton.on('pointerdown', (event) => {
         clearStage();
-        buildGame(0, 13, 4);
-        //buildLevelSelect();
+        buildLevelSelect();
     });
 
     howToPlayButton.eventMode = 'static';
@@ -139,8 +138,6 @@ function buildMenuGUI()
     app.stage.addChild(playButton);
     app.stage.addChild(howToPlayButton);
 
-
-
 }
 
 function buildHowToGUI()
@@ -148,7 +145,6 @@ function buildHowToGUI()
     let backButtonTex = PIXI.Texture.from('images/backBtn.png');
     let backButton = new PIXI.Sprite(backButtonTex);
 
-    // Temporary texture until we take gameplay screenshot
     let howToPicTex = PIXI.Texture.from('images/howToPic.png');
     let howToPic = new PIXI.Sprite(howToPicTex);
 
@@ -176,6 +172,10 @@ function buildHowToGUI()
 
 function buildLevelSelect()
 {
+    let level1Btn = new PIXI.Sprite(cardTextures[1]);
+    let level2Btn = new PIXI.Sprite(cardTextures[39]);
+    let level3Btn = new PIXI.Sprite(cardTextures[52]);
+
     let backButtonTex = PIXI.Texture.from('images/backBtn.png');
     let backButton = new PIXI.Sprite(backButtonTex);
 
@@ -184,6 +184,42 @@ function buildLevelSelect()
     backButton.x = (1280 * 1.25)/8;
     backButton.y = 600;
 
+    level1Btn.buttonMode = true;
+    level1Btn.anchor.set(0.5);
+    level1Btn.x = 1280/4;
+    level1Btn.y = 720/2;
+
+    level2Btn.buttonMode = true;
+    level2Btn.anchor.set(0.5);
+    level2Btn.x = 1280/2;
+    level2Btn.y = 720/2;
+
+    level3Btn.buttonMode = true;
+    level3Btn.anchor.set(0.5);
+    level3Btn.x = (1280 * 3)/4;
+    level3Btn.y = 720/2;
+
+    // make the button interactive...
+    level1Btn.eventMode = 'static';
+    level1Btn.on('pointerdown', (event) => {
+        clearStage();
+        buildGame(0, 4, 4);
+    });
+
+    // make the button interactive...
+    level2Btn.eventMode = 'static';
+    level2Btn.on('pointerdown', (event) => {
+        clearStage();
+        buildGame(1, 8, 4);
+    });
+
+    // make the button interactive...
+    level3Btn.eventMode = 'static';
+    level3Btn.on('pointerdown', (event) => {
+        clearStage();
+        buildGame(2, 13, 4);
+    });
+
     // make the button interactive...
     backButton.eventMode = 'static';
     backButton.on('pointerdown', (event) => {
@@ -191,6 +227,9 @@ function buildLevelSelect()
         buildMenuGUI();
     });
 
+    app.stage.addChild(level1Btn);
+    app.stage.addChild(level2Btn);
+    app.stage.addChild(level3Btn);
     app.stage.addChild(backButton);
 }
 
@@ -207,7 +246,7 @@ function buildWinnerScreen(level)
 
     let recordsText = new PIXI.Text((checkNewRecord === true) ? "New Record!" : 'Can you win in under ' + (records.time[level] / 1000.0).toString() + ' seconds?', {
         fontFamily: 'Arial',
-        fontSize: 24,
+        fontSize: 72,
         fill: 0xFFFFFF,
         align: 'center',
     });
@@ -217,8 +256,8 @@ function buildWinnerScreen(level)
 
     if (checkNewRecord)
     {
-        saveRecords(records);
         records.time[level] = gameInstance.getMilliSec();
+        saveRecords(records);
     }
 
     winnerText.anchor.set(0.5, 0.5);
@@ -228,8 +267,6 @@ function buildWinnerScreen(level)
     recordsText.anchor.set(0.5, 0.5);
     recordsText.x = 1280/2;
     recordsText.y = 720*5/8;
-
-
 
     backButton.buttonMode = true;
     backButton.anchor.set(0.5);
@@ -371,7 +408,7 @@ function buildGame(level, width, height)
 function resetRecords(myRecord)
 {
     myRecord = {
-        time: [300000, 300000, 300000]
+        time: [100000, 300000, 500000]
     };
 
     saveRecords(myRecord);
@@ -386,7 +423,7 @@ function saveRecords(myRecord)
 var cardTextures = new Array(54);
 
 var records = {
-    time: [300000, 300000, 300000]
+    time: [100000, 300000, 500000]
 };
 
 if (localStorage.getItem("memory_card_game_records") === null)
