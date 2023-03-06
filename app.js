@@ -102,17 +102,20 @@ function buildMenuGUI()
     titleImg.x = 1280/2;
     titleImg.y = 128;
 
-    let px_64 = new PIXI.Sprite(backCard64px);
+    let px_128_0 = new PIXI.Sprite(backCard128px);
     
-    px_64.anchor.set(0.5);
-    px_64.x = 1280/4;
-    px_64.y = 128;
+    px_128_0.anchor.set(0.5);
+    px_128_0.angle = -45;
+    px_128_0.x = (1280 * 1)/4;
+    px_128_0.y = 128;
 
-    let px_128 = new PIXI.Sprite(backCard128px);
+
+    let px_128_1 = new PIXI.Sprite(backCard128px);
     
-    px_128.anchor.set(0.5);
-    px_128.x = (1280 * 3)/4;
-    px_128.y = 128;
+    px_128_1.anchor.set(0.5);
+    px_128_1.angle = 45;
+    px_128_1.x = (1280 * 3)/4;
+    px_128_1.y = 128;
 
     // make the button interactive...
     playButton.eventMode = 'static';
@@ -129,12 +132,14 @@ function buildMenuGUI()
         buildHowToGUI();
     });
 
+    app.stage.addChild(px_128_0);
+    app.stage.addChild(px_128_1);
+
     app.stage.addChild(titleImg);
     app.stage.addChild(playButton);
     app.stage.addChild(howToPlayButton);
 
-    app.stage.addChild(px_64);
-    app.stage.addChild(px_128);
+
 
 }
 
