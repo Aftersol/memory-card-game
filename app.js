@@ -179,6 +179,17 @@ function buildLevelSelect()
     let backButtonTex = PIXI.Texture.from('images/backBtn.png');
     let backButton = new PIXI.Sprite(backButtonTex);
 
+    let levelSelectTxt = new PIXI.Text('Select Level', {
+        fontFamily: 'Arial',
+        fontSize: 48,
+        fill: 0xFFFFFF,
+        align: 'center',
+    });
+
+    levelSelectTxt.anchor.set(0.5);
+    levelSelectTxt.x = 1280/2;
+    levelSelectTxt.y = 200;
+
     backButton.buttonMode = true;
     backButton.anchor.set(0.5);
     backButton.x = (1280 * 1.25)/8;
@@ -231,13 +242,15 @@ function buildLevelSelect()
     app.stage.addChild(level2Btn);
     app.stage.addChild(level3Btn);
     app.stage.addChild(backButton);
+    app.stage.addChild(levelSelectTxt);
+
 }
 
 function buildWinnerScreen(level)
 {
     let checkNewRecord = (gameInstance.getMilliSec() < records.time[level]);
 
-    let winnerText = new PIXI.Text('Congratuations! You won!\n' + (gameInstance.getMilliSec() / 1000.0).toString() + " seconds", {
+    let winnerText = new PIXI.Text('Congratuations! You won!\n' + (gameInstance.getMilliSec() / 1000.0).toString() + ' seconds', {
         fontFamily: 'Arial',
         fontSize: 48,
         fill: 0xFFFFFF,
@@ -357,7 +370,7 @@ function buildGame(level, width, height)
                     {
                         
                         tileSet[(i*height) + j].changeTexture(cardTextures[tileSet[(i*height) + j].id]);
-                        console.log(tileSet[(i*height) + j].id.toString() + " " + gameInstance.cardsHeld.id.toString());
+                        console.log(tileSet[(i*height) + j].id.toString() + ' ' + gameInstance.cardsHeld.id.toString());
                         
                         canSelect = false; // prevents player from clicking on cards
                         setTimeout(function()
@@ -372,7 +385,7 @@ function buildGame(level, width, height)
                                 {
                                     gameInstance.endTimer();
                                     console.log("GG YOU WIN EZ!");
-                                    console.log((gameInstance.getMilliSec() / 1000.0).toString() + " seconds");
+                                    console.log((gameInstance.getMilliSec() / 1000.0).toString() + ' seconds');
                                     clearStage();
                                     buildWinnerScreen(level);
                                 }
@@ -417,7 +430,7 @@ function resetRecords(myRecord)
 function saveRecords(myRecord)
 {
     let recordsJSON = JSON.stringify(myRecord);
-    localStorage.setItem("memory_card_game_records", recordsJSON);
+    localStorage.setItem('memory_card_game_records', recordsJSON);
 }
 
 var cardTextures = new Array(54);
@@ -426,7 +439,7 @@ var records = {
     time: [100000, 300000, 500000]
 };
 
-if (localStorage.getItem("memory_card_game_records") === null)
+if (localStorage.getItem('memory_card_game_records') === null)
 {
     resetRecords(records);
 }
@@ -434,7 +447,7 @@ else
 {
     try
     {
-        records = JSON.parse(localStorage.getItem("memory_card_game_records"));
+        records = JSON.parse(localStorage.getItem('memory_card_game_records'));
     }
     catch(e)
     {
