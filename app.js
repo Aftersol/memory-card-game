@@ -287,7 +287,7 @@ function buildWinnerScreen(level)
 
     let recordsText = new PIXI.Text((checkNewRecord === true) ? "New Record!" : 'Can you win in under ' + (records.time[level] / 1000.0).toString() + ' seconds?', {
         fontFamily: 'Arial',
-        fontSize: 72,
+        fontSize: (checkNewRecord === true) ? 72 : 48,
         fill: 0xFFFFFF,
         align: 'center',
     });
