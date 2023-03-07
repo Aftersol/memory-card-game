@@ -7,6 +7,12 @@ var soundManifest =
     victory: new Audio('audio/victory.mp3')
 };
 
+var levelTiles = 
+{
+    x: [4,8,13],
+    y: [4,4,4]
+}
+
 class tiles
 {
     id; // id of the card
@@ -94,7 +100,7 @@ function buildMenuGUI()
     let titleTex = PIXI.Texture.from('images/title.png');
     let playButtonTex = PIXI.Texture.from('images/playBtn.png');
     let howToPlayButtonTex = PIXI.Texture.from('images/howToPlayBtn.png');
-    let backCard64px = PIXI.Texture.from('images/back_card_64px.png');
+    //let backCard64px = PIXI.Texture.from('images/back_card_64px.png');
     let backCard128px = PIXI.Texture.from('images/back_card_128px.png');
     
     let playButton = new PIXI.Sprite(playButtonTex);
@@ -149,6 +155,7 @@ function buildMenuGUI()
 
     app.stage.addChild(px_128_0);
     app.stage.addChild(px_128_1);
+   
 
     app.stage.addChild(titleImg);
     app.stage.addChild(playButton);
@@ -232,7 +239,7 @@ function buildLevelSelect()
     level1Btn.on('pointerdown', (event) => {
         playClickSound();
         clearStage();
-        buildGame(0, 4, 4);
+        buildGame(0, levelTiles.x[0], levelTiles.y[0]);
     });
 
     // make the button interactive...
@@ -240,7 +247,7 @@ function buildLevelSelect()
     level2Btn.on('pointerdown', (event) => {
         playClickSound();
         clearStage();
-        buildGame(1, 8, 4);
+        buildGame(1, levelTiles.x[1], levelTiles.y[1]);
     });
 
     // make the button interactive...
@@ -248,7 +255,7 @@ function buildLevelSelect()
     level3Btn.on('pointerdown', (event) => {
         playClickSound();
         clearStage();
-        buildGame(2, 13, 4);
+        buildGame(2, levelTiles.x[2], levelTiles.y[2]);
     });
 
     // make the button interactive...
@@ -295,6 +302,9 @@ function buildWinnerScreen(level)
     let backButtonTex = PIXI.Texture.from('images/backBtn.png');
     let backButton = new PIXI.Sprite(backButtonTex);
 
+    let replayButtonTex = PIXI.Texture.from('images/replayBtn.png');
+    let replayButton = new PIXI.Sprite(replayButtonTex);
+
     if (checkNewRecord)
     {
         records.time[level] = gameInstance.getMilliSec();
@@ -316,6 +326,11 @@ function buildWinnerScreen(level)
     backButton.x = (1280 * 1.25)/8;
     backButton.y = 600;
 
+    replayButton.buttonMode = true;
+    replayButton.anchor.set(0.5);
+    replayButton.x = (1280 * 6.75)/8;
+    replayButton.y = 600;
+
     // make the button interactive...
     backButton.eventMode = 'static';
     backButton.on('pointerdown', (event) => {
@@ -324,8 +339,17 @@ function buildWinnerScreen(level)
         buildMenuGUI();
     });
 
+    // make the button interactive...
+    replayButton.eventMode = 'static';
+    replayButton.on('pointerdown', (event) => {
+        playClickSound();
+        clearStage();
+        buildGame(level, levelTiles.x[level], levelTiles.y[level]);
+    });
+
     app.stage.addChild(winnerText);
     app.stage.addChild(recordsText);
+    app.stage.addChild(replayButton);
     app.stage.addChild(backButton);
 }
 
@@ -370,7 +394,7 @@ function buildGame(level, width, height)
     {
         for (let j = 0; j < height; j++)
         {
-            console.log((i*height) + j);
+            //console.log((i*height) + j);
             tileSet[(i*height) + j] = new tiles(tileCardIDs[(i*height) + j], new PIXI.Sprite(cardTextures[53]));
 
             // make the card interactive...
@@ -390,7 +414,7 @@ function buildGame(level, width, height)
                     if (gameInstance.cardsHeld === null) // no cards held
                     {
                         soundManifest.cardFlip.play();
-                        console.log(tileSet[(i*height) + j].id);
+                        //console.log(tileSet[(i*height) + j].id);
                         gameInstance.cardsHeld = tileSet[(i*height) + j];
                         
                         gameInstance.cardsHeld.changeTexture(cardTextures[gameInstance.cardsHeld.id]); 
@@ -400,7 +424,7 @@ function buildGame(level, width, height)
                     {
                         
                         tileSet[(i*height) + j].changeTexture(cardTextures[tileSet[(i*height) + j].id]);
-                        console.log(tileSet[(i*height) + j].id.toString() + ' ' + gameInstance.cardsHeld.id.toString());
+                        //console.log(tileSet[(i*height) + j].id.toString() + ' ' + gameInstance.cardsHeld.id.toString());
                         
                         canSelect = false; // prevents player from clicking on cards
                         if (gameInstance.cardsHeld.id != tileSet[(i*height) + j].id)
@@ -422,8 +446,8 @@ function buildGame(level, width, height)
                                 if (gameInstance.cardsMatched >= uniqueCards * 2)
                                 {
                                     gameInstance.endTimer();
-                                    console.log("GG YOU WIN EZ!");
-                                    console.log((gameInstance.getMilliSec() / 1000.0).toString() + ' seconds');
+                                    /*console.log("GG YOU WIN EZ!");
+                                    console.log((gameInstance.getMilliSec() / 1000.0).toString() + ' seconds');*/
                                     soundManifest.victory.play();
                                     clearStage();
                                     buildWinnerScreen(level);
