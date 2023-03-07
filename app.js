@@ -260,8 +260,15 @@ function buildLevelSelect()
     });
 
     app.stage.addChild(level1Btn);
-    app.stage.addChild(level2Btn);
-    app.stage.addChild(level3Btn);
+    if (records.levelBeaten[0] === true)
+    {
+        app.stage.addChild(level2Btn);
+    }
+    if (records.levelBeaten[1] === true)
+    {
+        app.stage.addChild(level3Btn);
+    }
+    
     app.stage.addChild(backButton);
     app.stage.addChild(levelSelectTxt);
 
@@ -291,8 +298,10 @@ function buildWinnerScreen(level)
     if (checkNewRecord)
     {
         records.time[level] = gameInstance.getMilliSec();
-        saveRecords(records);
     }
+
+    records.levelBeaten[level] = true;
+    saveRecords(records);
 
     winnerText.anchor.set(0.5, 0.5);
     winnerText.x = 1280/2;
@@ -335,8 +344,6 @@ function openCardTextures()
         cardTextures[i] = PIXI.Texture.from(('images/cards/card_' + i.toString() + '.png'));
     }
 }
-
-
 
 var tileCardIDs;
 var tileSet;
@@ -454,7 +461,8 @@ function buildGame(level, width, height)
 function resetRecords(myRecord)
 {
     myRecord = {
-        time: [100000, 300000, 500000]
+        time: [100000, 300000, 500000],
+        levelBeaten: [false, false, false]
     };
 
     saveRecords(myRecord);
@@ -469,7 +477,8 @@ function saveRecords(myRecord)
 var cardTextures = new Array(54);
 
 var records = {
-    time: [100000, 300000, 500000]
+    time: [100000, 300000, 500000],
+    levelBeaten: [false, false, false]
 };
 
 if (localStorage.getItem('memory_card_game_records') === null)
