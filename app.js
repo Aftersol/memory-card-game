@@ -153,6 +153,17 @@ function buildMenuGUI()
         buildHowToGUI();
     });
 
+    let authors = new PIXI.Text('Created by:\nAftersol\nItsDavidWu352\ncarlos998', {
+        fontFamily: 'Arial',
+        fontSize: 24,
+        fill: 0xFFFFFF,
+        align: 'left',
+    });
+
+    authors.anchor.set(0.5);
+    authors.x = 100;
+    authors.y = 650;
+
     app.stage.addChild(px_128_0);
     app.stage.addChild(px_128_1);
    
@@ -160,6 +171,7 @@ function buildMenuGUI()
     app.stage.addChild(titleImg);
     app.stage.addChild(playButton);
     app.stage.addChild(howToPlayButton);
+    app.stage.addChild(authors);
 
 }
 
