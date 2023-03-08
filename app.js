@@ -10,7 +10,8 @@ var soundManifest =
 var levelTiles = 
 {
     x: [4,8,13],
-    y: [4,4,4]
+    y: [4,4,4],
+    xOffset: [500,304,64]
 }
 
 class tiles
@@ -414,7 +415,7 @@ function buildGame(level, width, height)
 
             // card's translation properties
             tileSet[(i*height) + j].sprite.anchor.set(0.5);
-            tileSet[(i*height) + j].sprite.x = 64 + (96 * i);
+            tileSet[(i*height) + j].sprite.x = levelTiles.xOffset[level] + (96 * i);
             tileSet[(i*height) + j].sprite.y = 160 + (132 * j);
 
             // make the card do something if clicked on
