@@ -1,4 +1,4 @@
-# project2-for-class
+# Memory Card Game
 
 ## Requirements
     - PixiJS
